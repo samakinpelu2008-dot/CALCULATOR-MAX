@@ -1,71 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator Max - Scientific</title>
-    <link rel="stylesheet" href="css/scientific.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculator Max - Scientific</title>
+<style>
+  body {
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .calculator {
+    background: #1e293b;
+    border-radius: 20px;
+    padding: 20px;
+    width: 360px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  .display {
+    background: #111827;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    min-height: 90px;
+    color: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .expression {
+    font-size: 18px;
+    color: #94a3b8;
+    word-wrap: break-word;
+  }
+
+  .result {
+    font-size: 28px;
+    margin-top: 5px;
+    word-wrap: break-word;
+  }
+
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+
+  button {
+    padding: 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: #334155;
+    color: white;
+    transition: 0.2s;
+  }
+
+  button:hover {
+    background: #475569;
+  }
+
+  button.operator {
+    background: #f97316;
+  }
+
+  button.equal {
+    background: #22c55e;
+    grid-column: span 2;
+  }
+
+  button.zero {
+    grid-column: span 2;
+  }
+
+  .history {
+    background: #111827;
+    padding: 10px;
+    border-radius: 10px;
+    max-height: 120px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    color: #cbd5e1;
+    font-size: 14px;
+  }
+</style>
 </head>
 <body>
 
-<div class="calculator-container">
+<div class="calculator">
+  <div class="display">
+    <div id="expression" class="expression">0</div>
+    <div id="result" class="result">0</div>
+  </div>
 
-    <!-- Display -->
-    <div class="display-container">
-        <div id="expression" class="expression">0</div>
-        <div id="result" class="result">0</div>
-    </div>
+  <div class="history" id="historyList"></div>
 
-    <!-- Buttons -->
-    <div class="buttons-container">
+  <div class="buttons">
+    <button onclick="toggleDegRad()">DEG</button>
+    <button onclick="memoryClear()">MC</button>
+    <button onclick="memoryRecall()">MR</button>
+    <button onclick="memoryAdd()">M+</button>
+    <button onclick="memorySubtract()">M-</button>
 
-        <!-- Top Row: Mode & Memory -->
-        <button onclick="toggleDegRad()">DEG</button>
-        <button onclick="memoryClear()">MC</button>
-        <button onclick="memoryRecall()">MR</button>
-        <button onclick="memoryAdd()">M+</button>
-        <button onclick="memorySubtract()">M-</button>
+    <button onclick="appendFunction('sin')">sin</button>
+    <button onclick="appendFunction('cos')">cos</button>
+    <button onclick="appendFunction('tan')">tan</button>
+    <button onclick="appendFunction('log')">log</button>
+    <button onclick="appendFunction('ln')">ln</button>
 
-        <!-- Scientific Functions -->
-        <button onclick="appendFunction('sin')">sin</button>
-        <button onclick="appendFunction('cos')">cos</button>
-        <button onclick="appendFunction('tan')">tan</button>
-        <button onclick="appendFunction('log')">log</button>
-        <button onclick="appendFunction('ln')">ln</button>
-        <button onclick="appendFunction('√')">√</button>
-        <button onclick="appendFunction('x²')">x²</button>
-        <button onclick="appendFunction('x³')">x³</button>
-        <button onclick="append('(')">(</button>
-        <button onclick="append(')')">)</button>
+    <button onclick="appendFunction('√')">√</button>
+    <button onclick="appendFunction('x²')">x²</button>
+    <button onclick="appendFunction('x³')">x³</button>
+    <button onclick="appendFunction('π')">π</button>
+    <button onclick="appendFunction('e')">e</button>
 
-        <!-- Number Pad -->
-        <button onclick="clearAll()" class="operator">C</button>
-        <button onclick="backspace()" class="operator">⌫</button>
-        <button onclick="append('%')" class="operator">%</button>
-        <button onclick="append('/')" class="operator">÷</button>
+    <button onclick="clearAll()" class="operator">C</button>
+    <button onclick="backspace()" class="operator">⌫</button>
+    <button onclick="append('%')" class="operator">%</button>
+    <button onclick="append('/')" class="operator">÷</button>
+    <button onclick="append('!')" class="operator">!</button>
 
-        <button onclick="append('7')">7</button>
-        <button onclick="append('8')">8</button>
-        <button onclick="append('9')">9</button>
-        <button onclick="append('*')" class="operator">×</button>
+    <button onclick="append('7')">7</button>
+    <button onclick="append('8')">8</button>
+    <button onclick="append('9')">9</button>
+    <button onclick="append('*')" class="operator">×</button>
+    <button onclick="append('(')">(</button>
 
-        <button onclick="append('4')">4</button>
-        <button onclick="append('5')">5</button>
-        <button onclick="append('6')">6</button>
-        <button onclick="append('-')" class="operator">−</button>
+    <button onclick="append('4')">4</button>
+    <button onclick="append('5')">5</button>
+    <button onclick="append('6')">6</button>
+    <button onclick="append('-')" class="operator">−</button>
+    <button onclick="append(')')">)</button>
 
-        <button onclick="append('1')">1</button>
-        <button onclick="append('2')">2</button>
-        <button onclick="append('3')">3</button>
-        <button onclick="append('+')" class="operator">+</button>
+    <button onclick="append('1')">1</button>
+    <button onclick="append('2')">2</button>
+    <button onclick="append('3')">3</button>
+    <button onclick="append('+')" class="operator">+</button>
 
-        <button onclick="append('0')" class="zero">0</button>
-        <button onclick="append('.')">.</button>
-        <button onclick="calculate()" class="equal">=</button>
-
-    </div>
+    <button onclick="append('0')" class="zero">0</button>
+    <button onclick="append('.')">.</button>
+    <button onclick="calculate()" class="equal">=</button>
+  </div>
 </div>
 
-<script src="js/scientific.js"></script>
+<script>
+let expressionDiv = document.getElementById('expression');
+let resultDiv = document.getElementById('result');
+let historyList = document.getElementById('historyList');
+let historyArray = [];
+let memory = 0;
+let degMode = true;
+
+function append(value){
+    if(expressionDiv.innerText === "0") expressionDiv.innerText = value;
+    else expressionDiv.innerText += value;
+}
+
+function appendFunction(func){
+    switch(func){
+        case 'sin': expressionDiv.innerText += 'sin('; break;
+        case 'cos': expressionDiv.innerText += 'cos('; break;
+        case 'tan': expressionDiv.innerText += 'tan('; break;
+        case 'log': expressionDiv.innerText += 'log('; break;
+        case 'ln': expressionDiv.innerText += 'ln('; break;
+        case '√': expressionDiv.innerText += '√('; break;
+        case 'x²': expressionDiv.innerText += '**2'; break;
+        case 'x³': expressionDiv.innerText += '**3'; break;
+        case 'π': expressionDiv.innerText += 'Math.PI'; break;
+        case 'e': expressionDiv.innerText += 'Math.E'; break;
+        case '!': expressionDiv.innerText += 'factorial('; break;
+    }
+}
+
+function clearAll(){
+    expressionDiv.innerText = '0';
+    resultDiv.innerText = '0';
+}
+
+function backspace(){
+    let exp = expressionDiv.innerText;
+    expressionDiv.innerText = exp.slice(0,-1);
+    if(expressionDiv.innerText === '') expressionDiv.innerText = '0';
+}
+
+function toggleDegRad(){
+    degMode = !degMode;
+    alert(degMode ? "Degree Mode" : "Radian Mode");
+}
+
+// Memory functions
+function memoryClear(){ memory = 0; }
+function memoryRecall(){ append(memory); }
+function memoryAdd(){ memory += parseFloat(resultDiv.innerText) || 0; }
+function memorySubtract(){ memory -= parseFloat(resultDiv.innerText) || 0; }
+
+// Factorial
+function factorial(n){
+    n = parseInt(n);
+    if(n < 0) return NaN;
+    if(n ===0 || n===1) return 1;
+    let res=1;
+    for(let i=2;i<=n;i++) res*=i;
+    return res;
+}
+
+function calculate(){
+    let exp = expressionDiv.innerText;
+    try{
+        exp = exp.replace(/sin\(/g,'Math.sin(')
+                 .replace(/cos\(/g,'Math.cos(')
+                 .replace(/tan\(/g,'Math.tan(')
+                 .replace(/log\(/g,'Math.log10(')
+                 .replace(/ln\(/g,'Math.log(')
+                 .replace(/√\(/g,'Math.sqrt(')
+                 .replace(/factorial\(([^)]+)\)/g,(match,p1)=>`factorial(${p1})`);
+        if(degMode){
+            exp = exp.replace(/Math\.sin\(([^)]+)\)/g,(m,p1)=>`Math.sin(${p1}*Math.PI/180)`);
+            exp = exp.replace(/Math\.cos\(([^)]+)\)/g,(m,p1)=>`Math.cos(${p1}*Math.PI/180)`);
+            exp = exp.replace(/Math\.tan\(([^)]+)\)/g,(m,p1)=>`Math.tan(${p1}*Math.PI/180)`);
+        }
+        let result = eval(exp);
+        resultDiv.innerText = result;
+        addToHistory(expressionDiv.innerText+" = "+result);
+    }catch(err){
+        resultDiv.innerText = "Error";
+    }
+}
+
+function addToHistory(text){
+    historyArray.unshift(text);
+    if(historyArray.length>10) historyArray.pop();
+    renderHistory();
+}
+
+function renderHistory(){
+    historyList.innerHTML='';
+    historyArray.forEach(item=>{
+        let li=document.createElement('li');
+        li.innerText=item;
+        historyList.appendChild(li);
+    });
+}
+</script>
+
 </body>
 </html>
