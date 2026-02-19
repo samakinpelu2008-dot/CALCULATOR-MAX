@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Max - Scientific</title>
+    <link rel="stylesheet" href="css/scientific.css">
+</head>
+<body>
+
+<div class="calculator-container">
+
+    <!-- Display -->
+    <div class="display-container">
+        <div id="expression" class="expression">0</div>
+        <div id="result" class="result">0</div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="buttons-container">
+
+        <!-- Top Row: Mode & Memory -->
+        <button onclick="toggleDegRad()">DEG</button>
+        <button onclick="memoryClear()">MC</button>
+        <button onclick="memoryRecall()">MR</button>
+        <button onclick="memoryAdd()">M+</button>
+        <button onclick="memorySubtract()">M-</button>
+
+        <!-- Scientific Functions -->
+        <button onclick="appendFunction('sin')">sin</button>
+        <button onclick="appendFunction('cos')">cos</button>
+        <button onclick="appendFunction('tan')">tan</button>
+        <button onclick="appendFunction('log')">log</button>
+        <button onclick="appendFunction('ln')">ln</button>
+        <button onclick="appendFunction('√')">√</button>
+        <button onclick="appendFunction('x²')">x²</button>
+        <button onclick="appendFunction('x³')">x³</button>
+        <button onclick="append('(')">(</button>
+        <button onclick="append(')')">)</button>
+
+        <!-- Number Pad -->
+        <button onclick="clearAll()" class="operator">C</button>
+        <button onclick="backspace()" class="operator">⌫</button>
+        <button onclick="append('%')" class="operator">%</button>
+        <button onclick="append('/')" class="operator">÷</button>
+
+        <button onclick="append('7')">7</button>
+        <button onclick="append('8')">8</button>
+        <button onclick="append('9')">9</button>
+        <button onclick="append('*')" class="operator">×</button>
+
+        <button onclick="append('4')">4</button>
+        <button onclick="append('5')">5</button>
+        <button onclick="append('6')">6</button>
+        <button onclick="append('-')" class="operator">−</button>
+
+        <button onclick="append('1')">1</button>
+        <button onclick="append('2')">2</button>
+        <button onclick="append('3')">3</button>
+        <button onclick="append('+')" class="operator">+</button>
+
+        <button onclick="append('0')" class="zero">0</button>
+        <button onclick="append('.')">.</button>
+        <button onclick="calculate()" class="equal">=</button>
+
+    </div>
+</div>
+
+<script src="js/scientific.js"></script>
+</body>
+</html>
